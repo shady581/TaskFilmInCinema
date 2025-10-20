@@ -1,0 +1,22 @@
+﻿@model TaskFilmInCinema.Models.Category
+
+<h2>Edit Category</h2>
+
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="Cat_Id" />
+
+    <div class="form-group">
+        <label asp-for="Name"></label>
+        <input asp-for="Name" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Status"></label>
+        <input asp-for="Status" class="form-control" />
+    </div>
+
+    <div class="form-group mt-2">
+        <input type="submit" value="Save" class="btn btn-primary" />
+        <a asp-action="Index" class="btn btn-secondary">Back</a>
+    </div>
+</form>

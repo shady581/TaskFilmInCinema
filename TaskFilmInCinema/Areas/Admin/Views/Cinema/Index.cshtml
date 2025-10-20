@@ -1,0 +1,33 @@
+﻿@model IEnumerable<TaskFilmInCinema.Models.Cinema>
+
+<h2>Cinemas</h2>
+
+<p>
+    <a class="btn btn-primary" asp-action="Create">Create New Cinema</a>
+</p>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Image</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @if (!string.IsNullOrEmpty(item.Img))
+                    {
+                        <img src="/CinemaImage/@item.Img" width="100" />
+                    }
+                </td>
+                <td>
+                    <a class="btn btn-warning" asp-action="Edit" asp-route-id="@item.Cin_Id">Edit</a>
+                    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Cin_Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

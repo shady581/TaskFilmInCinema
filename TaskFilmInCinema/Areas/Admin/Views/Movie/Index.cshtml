@@ -1,0 +1,53 @@
+﻿@model IEnumerable<TaskFilmInCinema.Models.Movie>
+
+<h2>Movies</h2>
+
+<p>
+    <a class="btn btn-primary" asp-action="Create">Create New Movie</a>
+</p>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Main Image</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Date</th>
+            <th>Cinema</th>
+            <th>Category</th>
+            <th>Actors</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var movie in Model)
+        {
+            <tr>
+                <td>
+                    @if (!string.IsNullOrEmpty(movie.MainImg))
+                    {
+                        <img src="/MovieImages/@movie.MainImg" width="80" />
+                    }
+                </td>
+                <td>@movie.Name</td>
+                <td>@movie.Price</td>
+                <td>@movie.Date.ToString("g")</td>
+                <td>@movie.Cinema?.Img</td>
+                <td>@movie.Category?.Name</td>
+                <td>
+                    @foreach (var ma in movie.MovieActors)
+                    {
+                        @ma.Actor?.Act_Id @* Replace with name if you have Name property *@
+                    }
+                </td>
+                <td>
+                    <a class="btn btn-warning" asp-action="Edit" asp-route-id="@movie.Mov_Id">Edit</a>
+                    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@movie.Mov_Id"
+                       onclick="return confirm('Are you sure you want to delete this movie?');">
+                        Delete
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

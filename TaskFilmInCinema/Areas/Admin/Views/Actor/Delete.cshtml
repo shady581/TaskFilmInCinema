@@ -1,0 +1,25 @@
+﻿@model TaskFilmInCinema.Models.Actor
+
+<h2>Edit Actor</h2>
+
+<form asp-action="Edit" method="post" enctype="multipart/form-data">
+    <input type="hidden" asp-for="Act_Id" />
+
+    <div class="form-group">
+        <label asp-for="Img">Upload New Image</label>
+        <input type="file" name="ImgFile" class="form-control" />
+    </div>
+
+    @if (!string.IsNullOrEmpty(Model.Img))
+    {
+        <div class="mt-2">
+            <p>Current Image:</p>
+            <img src="@Model.Img" width="100" />
+        </div>
+    }
+
+    <div class="form-group mt-2">
+        <input type="submit" value="Save" class="btn btn-primary" />
+        <a asp-action="Index" class="btn btn-secondary">Back</a>
+    </div>
+</form>
