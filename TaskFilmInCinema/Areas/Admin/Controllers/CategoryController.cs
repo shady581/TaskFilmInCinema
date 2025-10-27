@@ -16,8 +16,8 @@ namespace TaskFilmInCinema.Areas.Admin.Controllers
         // GET: Category/Index
         public IActionResult Index()
         {
-            var cinemas = _context.Cinemas.ToList();
-            return View(cinemas);
+            var categories = _context.Categories.ToList();
+            return View(categories);
         }
 
         // Create GET
@@ -29,54 +29,46 @@ namespace TaskFilmInCinema.Areas.Admin.Controllers
 
         // Create POST
         [HttpPost]
-        public IActionResult Create(Cinema cinema, IFormFile ImgFile)
+        public IActionResult Create(Category category)
         {
-            if (ImgFile != null && ImgFile.Length > 0)
+            if (ModelState.IsValid)
             {
-                var fileName = Guid.NewGuid().ToString() + Path.GetExtension(ImgFile.FileName);
-                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\CinemaImage", fileName);
-
-                if (!Directory.Exists(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\CinemaImage")))
-                    Directory.CreateDirectory(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\CinemaImage"));
-
-                using (var stream = System.IO.File.Create(filePath))
-                {
-                    ImgFile.CopyTo(stream);
-                }
-
-                cinema.Img = fileName;
+                _context.Categories.Add(category);
+                _context.SaveChanges();
+                return RedirectToAction(nameof(Index));
             }
-
-            _context.Cinemas.Add(cinema);
-            _context.SaveChanges();
-            return RedirectToAction(nameof(Index));
+            return View(category);
         }
 
         // Edit GET
         [HttpGet]
         public IActionResult Edit(int id)
         {
-            var cinema = _context.Cinemas.FirstOrDefault(c => c.Cin_Id == id);
-            if (cinema == null) return RedirectToAction("NotFoundPage", "Home");
-            return View(cinema);
+            var category = _context.Categories.FirstOrDefault(c => c.Cat_Id == id);
+            if (category == null) return RedirectToAction("NotFoundPage", "Home");
+            return View(category);
         }
 
         // Edit POST
         [HttpPost]
-        public IActionResult Edit(Cinema cinema)
+        public IActionResult Edit(Category category)
         {
-            _context.Cinemas.Update(cinema);
-            _context.SaveChanges();
-            return RedirectToAction(nameof(Index));
+            if (ModelState.IsValid)
+            {
+                _context.Categories.Update(category);
+                _context.SaveChanges();
+                return RedirectToAction(nameof(Index));
+            }
+            return View(category);
         }
 
         // Delete
         public IActionResult Delete(int id)
         {
-            var cinema = _context.Cinemas.FirstOrDefault(c => c.Cin_Id == id);
-            if (cinema == null) return RedirectToAction("NotFoundPage", "Home");
+            var category = _context.Categories.FirstOrDefault(c => c.Cat_Id == id);
+            if (category == null) return RedirectToAction("NotFoundPage", "Home");
 
-            _context.Cinemas.Remove(cinema);
+            _context.Categories.Remove(category);
             _context.SaveChanges();
             return RedirectToAction(nameof(Index));
         }
